@@ -1,13 +1,16 @@
 import { Module } from '@nestjs/common';
-import { UsersService } from './users.service';
-import { UsersController } from './users.controller';
-import { UsersRepository } from './repositories/users.repository';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import * as useCases from './controllers';
+import { UsersRepository } from './repositories/users.repository';
 import { User } from './entities/user.entity';
+import { UsersService } from './services/users.service';
+
+const applications = Object.values(useCases);
+const endpoints = applications.filter((x) => x.name.endsWith('Endpoint'));
 
 @Module({
   imports: [TypeOrmModule.forFeature([User])],
-  controllers: [UsersController],
+  controllers: [...endpoints],
   providers: [UsersService, UsersRepository],
   exports: [UsersRepository],
 })

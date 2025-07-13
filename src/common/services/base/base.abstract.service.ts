@@ -3,6 +3,7 @@ import { DeepPartial } from 'typeorm';
 import { FindAllResponse } from '@commonTypes/common.types';
 import { BaseRepositoryInterface } from '@baseRepositories/base.interface.repository';
 import { AppBaseEntity } from '@commonEntities/base.entity';
+import { QueryDeepPartialEntity } from 'typeorm/query-builder/QueryPartialEntity';
 
 export abstract class BaseServiceAbstract<T extends AppBaseEntity>
   implements BaseServiceInterface<T>
@@ -24,11 +25,17 @@ export abstract class BaseServiceAbstract<T extends AppBaseEntity>
     return await this.repository.findOneById(id);
   }
 
-  async update(id: string, update_dto: Partial<T>): Promise<T | null> {
+  async update(
+    id: string,
+    update_dto: QueryDeepPartialEntity<T>,
+  ): Promise<T | null> {
     return await this.repository.update(id, update_dto);
   }
 
-  async remove(id: string): Promise<boolean> {
+  async softDelete(id: string | string[]): Promise<boolean> {
     return await this.repository.softDelete(id);
+  }
+  async permanentlyDelete(id: string | string[]): Promise<boolean> {
+    return await this.repository.permanentlyDelete(id);
   }
 }
