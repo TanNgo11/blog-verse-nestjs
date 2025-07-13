@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { BaseServiceAbstract } from 'src/common/services/base/base.abstract.service';
-import { User } from './entities/user.entity';
-import { UsersRepository } from './repositories/users.repository';
+
 import { DeepPartial } from 'typeorm';
+import { User } from '../entities/user.entity';
+import { UsersRepository } from '../repositories/users.repository';
 
 @Injectable()
 export class UsersService extends BaseServiceAbstract<User> {
