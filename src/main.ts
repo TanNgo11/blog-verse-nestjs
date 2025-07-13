@@ -14,6 +14,6 @@ async function bootstrap() {
   logger.log(`Running in ${node_env} mode`);
   logger.log(`Listening on port ${port}`);
   logger.debug(database_env);
-  await app.listen(3000);
+  await app.listen(port || 3000);
 }
 bootstrap();
