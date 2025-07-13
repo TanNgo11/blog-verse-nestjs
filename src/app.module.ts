@@ -5,7 +5,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import * as Joi from 'joi';
 import { database_config, DatabaseConfig } from '@configs/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from './users/users.module';
+import { UsersModule } from './modules/users/users.module';
 
 @Module({
   imports: [
