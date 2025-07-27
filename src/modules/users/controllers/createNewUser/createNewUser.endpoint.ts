@@ -1,13 +1,12 @@
-import { CreateUserDto } from '@modules/users/dtos/create-user.dto';
-import { UsersService } from '@modules/users/services/users.service';
+import { RoleService } from '@modules/roles/services/role.service';
 import { Body, Controller, Post } from '@nestjs/common';
 
-@Controller('users')
+@Controller('roles')
 export class UsersEndpoint {
-  constructor(private readonly usersService: UsersService) {}
+  constructor(private readonly roleService: RoleService) {}
 
   @Post()
-  create(@Body() createUserDto: CreateUserDto) {
-    return this.usersService.create(createUserDto);
+  create(@Body() roleDTO: any) {
+    return this.roleService.create(roleDTO);
   }
 }

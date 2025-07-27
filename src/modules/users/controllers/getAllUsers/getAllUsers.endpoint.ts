@@ -1,4 +1,3 @@
-import { FindAllResponse } from '@commonTypes/common.types';
 import { UsersService } from '@modules/users/services/users.service';
 import { Controller, Get } from '@nestjs/common';
 import { GetAllUsersResponseDto } from './users-response.dto';
@@ -8,7 +7,7 @@ export class GetAllUsersEndpoint {
   constructor(private readonly usersService: UsersService) {}
 
   @Get()
-  getAll(): Promise<FindAllResponse<GetAllUsersResponseDto>> {
+  getAll(): Promise<GetAllUsersResponseDto[]> {
     return this.usersService.findAll({
       username: 'ádasdasd2',
     });
