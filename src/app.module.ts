@@ -6,6 +6,8 @@ import * as Joi from 'joi';
 import { database_config, DatabaseConfig } from '@configs/database.config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from '@modules/users';
+import { RoleModule } from '@modules/roles/role.module';
+import { AccountModule } from '@modules/accounts/account.module';
 
 @Module({
   imports: [
@@ -55,11 +57,13 @@ import { UsersModule } from '@modules/users';
           url,
           entities: [__dirname + '/**/*.entity{.ts,.js}'],
           synchronize: true, //Chỉ dùng trong dev
+          logging: process.env.NODE_ENV === 'development',
         };
       },
     }),
-
-    UsersModule,
+    AccountModule,
+    // UsersModule,
+    RoleModule,
   ],
   controllers: [AppController],
   providers: [AppService],
