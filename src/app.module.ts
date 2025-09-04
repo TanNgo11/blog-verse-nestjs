@@ -1,13 +1,13 @@
+import { database_config } from '@configs/database.config';
+import { AccountModule } from '@modules/accounts/account.module';
+import { RoleModule } from '@modules/roles/role.module';
 import { Module } from '@nestjs/common';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import * as Joi from 'joi';
-import { database_config, DatabaseConfig } from '@configs/database.config';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { UsersModule } from '@modules/users';
-import { RoleModule } from '@modules/roles/role.module';
-import { AccountModule } from '@modules/accounts/account.module';
+import { dataSourceOptions } from './database/data-source';
 
 @Module({
   imports: [
@@ -34,33 +34,7 @@ import { AccountModule } from '@modules/accounts/account.module';
       },
     }),
 
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) => {
-        const {
-          host,
-          port,
-          username,
-          password,
-          name: database,
-          uri: url,
-        } = configService.get<DatabaseConfig>('database')!;
-
-        return {
-          type: 'postgres',
-          host,
-          port,
-          username,
-          password,
-          database,
-          url,
-          entities: [__dirname + '/**/*.entity{.ts,.js}'],
-          synchronize: true, //Chỉ dùng trong dev
-          logging: process.env.NODE_ENV === 'development',
-        };
-      },
-    }),
+    TypeOrmModule.forRoot(dataSourceOptions),
     AccountModule,
     // UsersModule,
     RoleModule,
