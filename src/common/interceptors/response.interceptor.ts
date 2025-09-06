@@ -1,5 +1,5 @@
 import { MESSAGE_METADATA_KEY } from '@common/decorators/set-message.decorator';
-import { ApiListResponseDto, ApiResponseDto } from '@commonTypes/common.types';
+import { ApiResponseDto } from '@commonTypes/common.types';
 import {
   CallHandler,
   ExecutionContext,
@@ -12,7 +12,7 @@ import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ResponseInterceptor<T>
-  implements NestInterceptor<T, ApiResponseDto<T> | ApiListResponseDto<T>>
+  implements NestInterceptor<T, ApiResponseDto<T>>
 {
   private readonly reflector: Reflector;
 
@@ -22,7 +22,7 @@ export class ResponseInterceptor<T>
   intercept(
     _context: ExecutionContext,
     next: CallHandler,
-  ): Observable<ApiResponseDto<T> | ApiListResponseDto<T>> {
+  ): Observable<ApiResponseDto<T>> {
     const handler = _context.getHandler();
     const message = this.reflector.get<string>(MESSAGE_METADATA_KEY, handler);
 

@@ -1,0 +1,25 @@
+import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
+import {
+  Controller,
+  Get,
+  Param,
+  ParseUUIDPipe,
+  UseInterceptors,
+} from '@nestjs/common';
+import { GetAccountByIdResponseDto } from './getAccountById-response.dto';
+import { GetAccountByIdHandler } from './getAccountById.handler';
+import { ApiTags } from '@nestjs/swagger';
+
+@Controller('accounts')
+@ApiTags('Accounts')
+@UseInterceptors(ResponseInterceptor)
+export class GetAccountByIdEndpoint {
+  constructor(private readonly getAccountByIdHandler: GetAccountByIdHandler) {}
+
+  @Get(':id')
+  getById(
+    @Param('id', new ParseUUIDPipe({ version: '4' })) id: string,
+  ): Promise<GetAccountByIdResponseDto> {
+    return this.getAccountByIdHandler.execute(id);
+  }
+}

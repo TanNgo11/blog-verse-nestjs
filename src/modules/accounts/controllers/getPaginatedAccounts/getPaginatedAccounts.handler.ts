@@ -30,20 +30,18 @@ export class GetPaginatedAccountsHandler {
       take: limit,
     });
 
-    console.log(
-      '🚀 ~ GetPaginatedAccountsHandler ~ execute ~ accounts:',
-      accounts,
-    );
     const results = plainToInstance(GetAccountResponseDto, accounts, {
       excludeExtraneousValues: true,
     });
 
     return {
       data: results,
-      total,
-      page,
-      limit,
-      hasNext: total > page * limit,
+      metadata: {
+        total,
+        page,
+        limit,
+        hasNext: total > page * limit,
+      },
     };
   }
 }
