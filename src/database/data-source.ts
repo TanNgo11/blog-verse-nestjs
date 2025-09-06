@@ -23,6 +23,7 @@ export const dataSourceOptions: DataSourceOptions = {
   migrations: [__dirname + '/../database/migrations/*.{ts,js}'],
   synchronize: false,
   logging: true,
+  logger: 'formatted-console',
 };
 
 const dataSource = new DataSource(dataSourceOptions);

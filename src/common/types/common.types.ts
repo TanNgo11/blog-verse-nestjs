@@ -1,8 +1,10 @@
+import { Type } from 'class-transformer';
+import { IsInt, IsOptional, Min } from 'class-validator';
 export class PaginatedApiResponseDto<T> {
-  skippedRecords: number;
-  totalRecords: number;
-  data: T[];
-  payloadSize: number;
+  data: T;
+  total: number;
+  page: number;
+  limit: number;
   hasNext: boolean;
 }
 
@@ -18,4 +20,18 @@ export class ApiListResponseDto<T> {
   code: number;
   data: T[];
   timestamp: number;
+}
+
+export class PaginationQueryDto {
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  page = 1;
+
+  @IsOptional()
+  @Type(() => Number)
+  @IsInt()
+  @Min(1)
+  limit = 10;
 }

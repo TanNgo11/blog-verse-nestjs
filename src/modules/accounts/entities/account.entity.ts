@@ -1,6 +1,6 @@
 import { Profile } from '@modules/profiles/entities/profile.entity';
 import { AppBaseEntity } from 'src/common/entities/base.entity';
-import { Column, Entity, OneToOne } from 'typeorm';
+import { Column, Entity, JoinColumn, OneToOne } from 'typeorm';
 
 @Entity('accounts')
 export class Account extends AppBaseEntity {
@@ -19,5 +19,6 @@ export class Account extends AppBaseEntity {
   @OneToOne(() => Profile, (profile) => profile.account, {
     cascade: true,
   })
+  @JoinColumn()
   profile: Profile;
 }
