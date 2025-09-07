@@ -3,7 +3,7 @@ import { DeepPartial, EntityManager } from 'typeorm';
 import { User } from '../entities/user.entity';
 import { UsersRepository } from '../repositories/users.repository';
 import { BaseServiceAbstract } from '@baseServices/base.abstract.service';
-import { SignUpRequestDTO } from '@modules/accounts/controllers/signUp/signUp.request.dto';
+import { SignUpRequestDTO } from '@modules/auth/controllers/signUp/signUp-request.dto';
 
 @Injectable()
 export class UsersService extends BaseServiceAbstract<User> {

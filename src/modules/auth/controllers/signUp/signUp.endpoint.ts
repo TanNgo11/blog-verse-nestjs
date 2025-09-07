@@ -1,8 +1,8 @@
-import { SetMessage } from '@common/decorators/set-message.decorator';
 import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { ApiTags } from '@nestjs/swagger';
-import { SignUpRequestDTO } from './signUp.request.dto';
+import { SetMessage } from 'src/decorators/set-message.decorator';
+import { SignUpRequestDTO } from './signUp-request.dto';
 import { SignUpHandler } from './signUp.handler';
 
 @Controller('auth')
@@ -11,7 +11,7 @@ import { SignUpHandler } from './signUp.handler';
 export class SignUpEndpoint {
   constructor(private readonly signUpHandler: SignUpHandler) {}
 
-  @Post('signup')
+  @Post('sign-up')
   @SetMessage('Account created successfully')
   async create(@Body() signUpRequest: SignUpRequestDTO) {
     await this.signUpHandler.execute(signUpRequest);

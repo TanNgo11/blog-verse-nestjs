@@ -2,7 +2,7 @@ import { RoleService } from '@modules/roles/services/role.service';
 import { Body, Controller, Post, UseInterceptors } from '@nestjs/common';
 import { CreateRoleRequestDTO } from './createRole.request.dto';
 import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
-import { SetMessage } from '@common/decorators/set-message.decorator';
+import { SetMessage } from 'src/decorators/set-message.decorator';
 import { ApiTags } from '@nestjs/swagger';
 
 @Controller('roles')

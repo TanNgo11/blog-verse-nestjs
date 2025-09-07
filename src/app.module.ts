@@ -8,6 +8,7 @@ import * as Joi from 'joi';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { dataSourceOptions } from './database/data-source';
+import { AuthModule } from '@modules/auth/auth.module';
 
 @Module({
   imports: [
@@ -36,6 +37,7 @@ import { dataSourceOptions } from './database/data-source';
 
     TypeOrmModule.forRoot(dataSourceOptions),
     AccountModule,
+    AuthModule,
     // UsersModule,
     RoleModule,
   ],

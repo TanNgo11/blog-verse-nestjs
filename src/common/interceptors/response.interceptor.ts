@@ -1,4 +1,4 @@
-import { MESSAGE_METADATA_KEY } from '@common/decorators/set-message.decorator';
+import { MESSAGE_METADATA_KEY } from 'src/decorators/set-message.decorator';
 import { ApiResponseDto } from '@commonTypes/common.types';
 import {
   CallHandler,
