@@ -9,7 +9,7 @@
     "prepare": "pnpm husky install || echo \"husky is not installed\"",
     "build": "nest build",
     "format": "prettier --write \"src/**/*.ts\" \"test/**/*.ts\"",
-    "start": "nest start",
+    "start": "cross-env NODE_ENV=production nest start",
     "dev": "cross-env NODE_ENV=development nest start --watch",
     "start:debug": "nest start --debug --watch",
     "start:prod": "node dist/main",
@@ -19,9 +19,10 @@
     "test:cov": "jest --coverage",
     "test:debug": "node --inspect-brk -r tsconfig-paths/register -r ts-node/register node_modules/.bin/jest --runInBand",
     "test:e2e": "jest --config ./test/jest-e2e.json",
-    "typeorm": "cross-env NODE_ENV=development ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/database/data-source.ts",
+    "typeorm": "ts-node -r tsconfig-paths/register ./node_modules/typeorm/cli.js -d src/database/data-source.ts",
     "migration:generate": "pnpm typeorm migration:generate",
-    "migration:run": "pnpm typeorm migration:run",
+    "migration:run": "cross-env NODE_ENV=development pnpm typeorm migration:run",
+    "migration:run:prod": "cross-env NODE_ENV=production pnpm typeorm migration:run",
     "migration:revert": "pnpm typeorm migration:revert"
   },
   "dependencies": {

@@ -12,6 +12,8 @@ dotenv.config({
   ),
 });
 
+const isProduction = env === 'production';
+
 export const dataSourceOptions: DataSourceOptions = {
   type: 'postgres',
   host: process.env.DATABASE_HOST,
@@ -24,6 +26,7 @@ export const dataSourceOptions: DataSourceOptions = {
   synchronize: false,
   logging: true,
   logger: 'formatted-console',
+  ssl: isProduction ? { rejectUnauthorized: false } : false,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
