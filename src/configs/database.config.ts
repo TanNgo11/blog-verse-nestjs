@@ -15,8 +15,9 @@ export const database_config = () => ({
     password: process.env.DATABASE_PASSWORD,
     name: process.env.DATABASE_NAME,
     uri: process.env.DATABASE_URI,
-    ssl: {
-      rejectUnauthorized: false,
-    },
+    ssl:
+      process.env.DATABASE_SSL === 'true'
+        ? { rejectUnauthorized: false }
+        : false,
   },
 });
