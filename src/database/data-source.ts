@@ -26,7 +26,8 @@ export const dataSourceOptions: DataSourceOptions = {
   synchronize: false,
   logging: true,
   logger: 'formatted-console',
-  ssl: isProduction ? { rejectUnauthorized: false } : false,
+  ssl:
+    process.env.DATABASE_SSL === 'true' ? { rejectUnauthorized: false } : false,
 };
 
 const dataSource = new DataSource(dataSourceOptions);
