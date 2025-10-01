@@ -5,6 +5,7 @@ export function configSwagger(app: INestApplication) {
     .setTitle('Blog Verse API')
     .setDescription('## Blog Verse API Documentation')
     .setVersion('1.0')
+    .addServer('/')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup('api-docs', app, document);
