@@ -1,6 +1,8 @@
 import { database_config } from '@configs/database.config';
 import { AccountModule } from '@modules/accounts/account.module';
 import { RoleModule } from '@modules/roles/role.module';
+import { StorageModule } from '@modules/storage/storage.module';
+import { FileModule } from '@modules/files/file.module';
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
@@ -29,6 +31,10 @@ import { AuthModule } from '@modules/auth/auth.module';
         DATABASE_PASSWORD: Joi.string().required(),
         DATABASE_NAME: Joi.string().required(),
         DATABASE_URI: Joi.string().uri().required(),
+        S3_BUCKET: Joi.string().required(),
+        S3_ENDPOINT: Joi.string().uri().required(),
+        S3_ACCESS_KEY_ID: Joi.string().required(),
+        S3_SECRET_ACCESS_KEY: Joi.string().required(),
       }),
       validationOptions: {
         abortEarly: false,
@@ -38,6 +44,8 @@ import { AuthModule } from '@modules/auth/auth.module';
     TypeOrmModule.forRoot(dataSourceOptions),
     AccountModule,
     AuthModule,
+    FileModule,
+    StorageModule,
     // UsersModule,
     RoleModule,
   ],

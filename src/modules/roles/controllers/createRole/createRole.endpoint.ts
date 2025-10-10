@@ -9,7 +9,6 @@ import { ApiTags } from '@nestjs/swagger';
 @ApiTags('Roles')
 @UseInterceptors(ResponseInterceptor)
 export class UsersEndpoint {
-  //test image
   constructor(private readonly roleService: RoleService) {}
 
   @Post()
