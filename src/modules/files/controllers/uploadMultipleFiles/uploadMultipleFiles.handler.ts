@@ -4,6 +4,7 @@ import { Repository } from 'typeorm';
 import { plainToInstance } from 'class-transformer';
 import { v4 as uuidv4 } from 'uuid';
 import * as path from 'path';
+import { generateFileKey } from '@common/helpers/file-key.helper';
 import { FileEntity } from '../../entities/file.entity';
 import {
   FileUploadResponseDto,
@@ -40,7 +41,7 @@ export class UploadMultipleFilesHandler {
 
     // Prepare file data for upload
     const fileData = files.map((file) => ({
-      key: this.generateFileKey(file.originalname),
+      key: generateFileKey(file.originalname),
       buffer: file.buffer,
       contentType: file.mimetype,
       originalFile: file,
@@ -103,16 +104,5 @@ export class UploadMultipleFilesHandler {
     }
   }
 
-  private generateFileKey(originalName: string): string {
-    const extension = path.extname(originalName);
-    const filename = path.basename(originalName, extension);
-    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9-_]/g, '_');
-    const uuid = uuidv4();
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `uploads/${year}/${month}/${day}/${sanitizedFilename}_${uuid}${extension}`;
-  }
+  // using shared generateFileKey helper
 }

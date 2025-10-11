@@ -4,7 +4,9 @@ import {
   S3Client,
   PutObjectCommand,
   DeleteObjectCommand,
+  GetObjectCommand,
 } from '@aws-sdk/client-s3';
+import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 @Injectable()
 export class StorageService {
@@ -70,6 +72,56 @@ export class StorageService {
       const errorMessage =
         error instanceof Error ? error.message : 'Unknown error';
       throw new Error(`Failed to delete file from S3: ${errorMessage}`);
+    }
+  }
+
+  async getPresignedUrl(
+    key: string,
+    expiresIn: number = 3600,
+  ): Promise<string> {
+    try {
+      const command = new GetObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+      });
+
+      const s3Client = this.getS3();
+      const presignedUrl: string = await getSignedUrl(s3Client, command, {
+        expiresIn,
+      });
+
+      return presignedUrl;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(`Failed to generate presigned URL: ${errorMessage}`);
+    }
+  }
+
+  async getPresignedUploadUrl(
+    key: string,
+    expiresIn: number = 3600,
+    contentType?: string,
+  ): Promise<string> {
+    try {
+      const command = new PutObjectCommand({
+        Bucket: this.bucket,
+        Key: key,
+        ContentType: contentType,
+      });
+
+      const s3Client = this.getS3();
+      const presignedUrl: string = await getSignedUrl(s3Client, command, {
+        expiresIn,
+      });
+
+      return presignedUrl;
+    } catch (error) {
+      const errorMessage =
+        error instanceof Error ? error.message : 'Unknown error';
+      throw new Error(
+        `Failed to generate presigned upload URL: ${errorMessage}`,
+      );
     }
   }
 }

@@ -1,12 +1,11 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
-import { randomUUID } from 'crypto';
-import * as path from 'path';
-import { FileEntity } from '../../entities/file.entity';
-import { FileUploadResponseDto } from '../../dtos/file-upload.dto';
+import { generateFileKey } from '@common/helpers/file-key.helper';
 import { StorageService } from '@modules/storage/services/storage.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
+import { Repository } from 'typeorm';
+import { FileUploadResponseDto } from '../../dtos/file-upload.dto';
+import { FileEntity } from '../../entities/file.entity';
 
 @Injectable()
 export class UploadFileHandler {
@@ -34,7 +33,7 @@ export class UploadFileHandler {
   ): Promise<FileUploadResponseDto> {
     this.validateFile(file);
 
-    const key = this.generateFileKey(file.originalname);
+    const key = generateFileKey(file.originalname);
 
     const url = await this.storageService.uploadFile(
       key,
@@ -89,16 +88,5 @@ export class UploadFileHandler {
     }
   }
 
-  private generateFileKey(originalName: string): string {
-    const extension = path.extname(originalName);
-    const filename = path.basename(originalName, extension);
-    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9-_]/g, '_');
-    const uuid = randomUUID();
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `uploads/${year}/${month}/${day}/${sanitizedFilename}_${uuid}${extension}`;
-  }
+  // using shared generateFileKey helper from common/helpers
 }
