@@ -1,21 +1,20 @@
+import { generateFileKey } from '@common/helpers/file-key.helper';
+import { StorageService } from '@modules/storage/services/storage.service';
 import {
-  Injectable,
-  NotFoundException,
   BadRequestException,
   forwardRef,
   Inject,
+  Injectable,
+  NotFoundException,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
-import { StorageService } from '@modules/storage/services/storage.service';
-import { FileEntity } from '../entities/file.entity';
 import {
   FileUploadResponseDto,
   MultipleFileUploadResponseDto,
 } from '../dtos/file-upload.dto';
-import { plainToInstance } from 'class-transformer';
-import { v4 as uuidv4 } from 'uuid';
-import * as path from 'path';
+import { FileEntity } from '../entities/file.entity';
 
 @Injectable()
 export class FileService {
@@ -44,7 +43,7 @@ export class FileService {
   ): Promise<FileUploadResponseDto> {
     this.validateFile(file);
 
-    const key = this.generateFileKey(file.originalname);
+    const key = generateFileKey(file.originalname);
 
     // Upload to storage
     const url = await this.storageService.uploadFile(
@@ -80,7 +79,7 @@ export class FileService {
 
     // Prepare file data for upload
     const fileData = files.map((file) => ({
-      key: this.generateFileKey(file.originalname),
+      key: generateFileKey(file.originalname),
       buffer: file.buffer,
       contentType: file.mimetype,
       originalFile: file,
@@ -182,16 +181,5 @@ export class FileService {
     }
   }
 
-  private generateFileKey(originalName: string): string {
-    const extension = path.extname(originalName);
-    const filename = path.basename(originalName, extension);
-    const sanitizedFilename = filename.replace(/[^a-zA-Z0-9-_]/g, '_');
-    const uuid = uuidv4();
-    const date = new Date();
-    const year = date.getFullYear();
-    const month = String(date.getMonth() + 1).padStart(2, '0');
-    const day = String(date.getDate()).padStart(2, '0');
-
-    return `uploads/${year}/${month}/${day}/${sanitizedFilename}_${uuid}${extension}`;
-  }
+  // use shared generateFileKey helper
 }
