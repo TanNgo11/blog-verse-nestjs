@@ -23,7 +23,13 @@ async function bootstrap() {
   app.use(urlencoded({ extended: true }));
 
   // 3. CORS and API versioning
-  app.enableCors();
+  app.enableCors({
+    origin: [
+      'http://localhost:3000',
+      'https://blogverse-frontend-y3gjbw-6f7d32-160-250-180-23.traefik.me',
+    ],
+    credentials: true,
+  });
   app.enableVersioning();
 
   // 4. Global Pipes (ValidationPipe)
