@@ -1,16 +1,15 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
-import { InjectRepository } from '@nestjs/typeorm';
-import { Repository } from 'typeorm';
-import { plainToInstance } from 'class-transformer';
-import { v4 as uuidv4 } from 'uuid';
-import * as path from 'path';
 import { generateFileKey } from '@common/helpers/file-key.helper';
-import { FileEntity } from '../../entities/file.entity';
+import { StorageService } from '@modules/storage/services/storage.service';
+import { BadRequestException, Injectable } from '@nestjs/common';
+import { InjectRepository } from '@nestjs/typeorm';
+import { plainToInstance } from 'class-transformer';
+import { Repository } from 'typeorm';
 import {
   FileUploadResponseDto,
   MultipleFileUploadResponseDto,
 } from '../../dtos/file-upload.dto';
-import { StorageService } from '@modules/storage/services/storage.service';
+import { FileEntity } from '../../entities/file.entity';
+import 'multer';
 
 @Injectable()
 export class UploadMultipleFilesHandler {

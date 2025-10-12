@@ -15,6 +15,7 @@ import {
   MultipleFileUploadResponseDto,
 } from '../dtos/file-upload.dto';
 import { FileEntity } from '../entities/file.entity';
+import 'multer';
 
 @Injectable()
 export class FileService {

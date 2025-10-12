@@ -6,6 +6,7 @@ import { plainToInstance } from 'class-transformer';
 import { Repository } from 'typeorm';
 import { FileUploadResponseDto } from '../../dtos/file-upload.dto';
 import { FileEntity } from '../../entities/file.entity';
+import 'multer';
 
 @Injectable()
 export class UploadFileHandler {

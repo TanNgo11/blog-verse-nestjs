@@ -28,6 +28,6 @@
       "@common/*": ["src/common/*"],
       "src/*": ["src/*"]
     },
-    "types": ["node", "Multer"] // <-- Add "Multer" here
+    "types": ["node", "multer"]
   }
 }
