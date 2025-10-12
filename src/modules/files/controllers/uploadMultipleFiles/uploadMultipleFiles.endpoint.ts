@@ -17,6 +17,7 @@ import {
 import { ResponseInterceptor } from '@common/interceptors/response.interceptor';
 import { MultipleFileUploadResponseDto } from '../../dtos/file-upload.dto';
 import { UploadMultipleFilesHandler } from './uploadMultipleFiles.handler';
+import 'multer';
 
 @Controller('files')
 @ApiTags('File Management')
